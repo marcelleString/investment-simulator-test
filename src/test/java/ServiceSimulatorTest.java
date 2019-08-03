@@ -20,6 +20,7 @@ import org.junit.jupiter.api.*;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchema;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 
@@ -44,30 +45,25 @@ public class ServiceSimulatorTest extends BaseTest {
     protected PrintStream erroreStream;
 
 
-    @BeforeEach
-    public void BeforeEach(TestInfo testInfo) {
-        ScenarioStartedMessage(testInfo);
-    }
 
-    @AfterEach
-    public void AfterEach(TestInfo testInfo) {
-        ScenarioFinishedMessage(testInfo);
-    }
 
-    @Test
-    @DisplayName("Service - Simulador de Investimento - Poupanca")
-    public void getSimulador() {
+    @BeforeAll
+    public void GetSimulador() {
 
-            try {
-                response =
+        String callMessage = "\n***** GET /Simulador - Servico para Simulacao de Investimento de Poupanca *****";
+        System.out.println(callMessage);
+        log.info(callMessage);
+
+        try {
+            response =
                     given()
                             .baseUri(baseURI)
                             .headers(headerName, headerValue)
                             .filters(getFilters())
-                    .when()
+                            .when()
                             .log().all()
                             .get("simulador")
-                    .then()
+                            .then()
                             .log().all()
                             .body(matchesJsonSchema(Jschema))
                             .extract().response();
@@ -75,9 +71,16 @@ public class ServiceSimulatorTest extends BaseTest {
             generateSucessEvidence();
         } catch (Exception e) {
             generateErrorEvidence();
-            log.error(e);
+            log.error("Não Obteve Resposta do Serviço: " + e);
         }
     }
+
+    @Test
+    @DisplayName("Validacao de Status Code")
+    public void StatusCode() {
+        assertEquals(200, response.statusCode(), "Nao retornou status code 200!");
+            log.debug("ResponseCode: " + response.getStatusCode());
+        }
 
 
     public File getFileFromURL(String filePath) {
