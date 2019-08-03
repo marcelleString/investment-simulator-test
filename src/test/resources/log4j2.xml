@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <properties>
+        <property name="pattern">[%d{HH:mm:ss}] %-5p (%F:%L) - %m%n</property>
+        <property name="basePath">evidence/logs</property>
+    </properties>
+    <appenders>
+        <RollingFile name="reportTestLoggerFile" fileName="${basePath}/Test.log"
+                     filePattern="${basePath}/Test-%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="${pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+        </RollingFile>
+    </appenders>
+    <loggers>
+        <root level="all">
+            <appender-ref ref="reportTestLoggerFile"/>
+        </root>
+    </loggers>
+</configuration>

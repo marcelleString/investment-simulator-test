@@ -1,0 +1,40 @@
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+
+plugins {
+    id 'java'
+}
+
+group 'br.com.sicredi'
+version '1.0'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation('org.junit.jupiter:junit-jupiter:5.4.2')
+    testImplementation group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.5.0-RC1'
+
+    compile 'io.rest-assured:rest-assured:3.3.0'
+    compile 'io.rest-assured:json-schema-validator:3.3.0'
+
+    compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
+
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.0'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.11.0'
+
+    compile group: 'commons-io', name: 'commons-io', version: '2.6'
+    //compile group: 'org.apache.commons', name: 'commons-text', version: '1.6'
+
+    compile group: 'com.aventstack', name: 'extentreports', version: '4.0.9'
+}
+
+test {
+    useJUnitPlatform()
+
+    testLogging {
+        events TestLogEvent.PASSED, TestLogEvent.SKIPPED, TestLogEvent.FAILED, TestLogEvent.STANDARD_ERROR, TestLogEvent.STANDARD_OUT
+    }
+}
