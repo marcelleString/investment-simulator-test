@@ -8,14 +8,14 @@
 * RestAssured (Comunicação com Serviços, Requests e Responses);
 * Selenium Webdriver (Comunicação com Interface Gráfica, Elementos);
 
-1. DataProvider (Nesta pasta é possível criar dados de entrada e saída, para simular todo tipo de Investimento de Poupança):
-[investment-simulator-test\src\test\resources\data]
+1. DataProvider (Nesta pasta é possível criar dados de entrada e saída, para simular todo tipo de Investimento de Poupança): 
+`investment-simulator-test\src\test\resources\data`
 
-2. Relatório dos testes (Após execução dos testes exibe inofrmações detalhadas):
-[investment-simulator-test/build/reports/tests/test/packages/default-package.html]
+2. Relatório dos testes (Após execução dos testes exibe inofrmações detalhadas): 
+`investment-simulator-test/build/reports/tests/test/packages/default-package.html`
 
-3. Logs de Execução:
-[investment-simulator-test\evidence\logs]
+3. Logs de Execução: 
+`investment-simulator-test\evidence\logs`
 
 #### Configurações
 Antes de rodar o projeto deverão ser instaladas as ferramentas abaixo e configuradas suas variáveis de ambiente:
