@@ -26,9 +26,6 @@ dependencies {
     compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.11.0'
 
     compile group: 'commons-io', name: 'commons-io', version: '2.6'
-    //compile group: 'org.apache.commons', name: 'commons-text', version: '1.6'
-
-    compile group: 'com.aventstack', name: 'extentreports', version: '4.0.9'
 }
 
 test {

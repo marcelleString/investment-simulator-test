@@ -1,0 +1,4 @@
+profile;amountToApply;amountToInvest;time;period;periodResult;amountResult;mouth1;amount1;mouth2;amount2;mouth3;amount3;mouth4;amount4
+paraVoce;50,00;30,00;1;A;12 meses;R$ 420;24;R$ 806;36;R$ 1.210;48;R$ 1.633;60;R$ 2.075
+paraVoce;500,00;200,00;6;M;6 meses;R$ 1.722;18;R$ 4.250;30;R$ 6.894;42;R$ 9.657;54;R$ 12.546
+paraEmpresa;2.000,00;1.000,00;5;A;60 meses;R$ 69.572;72;R$ 84.986;84;R$ 101.101;96;R$ 117.949;108;R$ 135.564;

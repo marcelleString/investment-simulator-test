@@ -4,41 +4,43 @@ import org.junit.jupiter.api.*;
 
 public class BaseTest {
 
-    private Logger log = LogManager.getLogger(this.getClass());
+    Evidence evidence = new Evidence();
+
 
     @BeforeAll
     public void BeforeAll() {
-        String startedMessage = "\n###################   AUTOMATED TESTING STARTED   ###################\n";
-        System.out.println(startedMessage);
-        log.debug(startedMessage);
+        String startedMessage = "\n###################   AUTOMATED TESTING STARTED   ###################";
+        evidence.message(startedMessage);
     }
+
 
     @AfterAll
     public void AfterAll() {
-        String finishedMessage = "\n###################   AUTOMATED TESTING FINISHED   ###################\n";
-        System.out.println(finishedMessage);
-        log.debug(finishedMessage);
+        String finishedMessage = "###################   AUTOMATED TESTING FINISHED   ###################\n";
+        evidence.message(finishedMessage);
     }
+
 
     @BeforeEach
     public void BeforeEach(TestInfo testInfo) {
         ScenarioStartedMessage(testInfo);
     }
 
+
     @AfterEach
     public void AfterEach(TestInfo testInfo) {
         ScenarioFinishedMessage(testInfo);
     }
 
-    public void ScenarioStartedMessage(TestInfo testInfo){
-        String ScenarioStartedMessage = "\n********** Test Scenario Started: " + testInfo.getDisplayName() + " **********\n";
-        System.out.println(ScenarioStartedMessage);
-        log.debug(ScenarioStartedMessage);
+
+    public void ScenarioStartedMessage(TestInfo testInfo) {
+        String ScenarioStartedMessage = "\n********** Test Scenario Started: " + testInfo.getDisplayName() + " **********";
+        evidence.message(ScenarioStartedMessage);
     }
 
-    public void ScenarioFinishedMessage(TestInfo testInfo){
-        String ScenarioFinishedMessage = "\n********** Test Scenario Finished: " + testInfo.getDisplayName() + " **********\n";
-        System.out.println(ScenarioFinishedMessage);
-        log.debug(ScenarioFinishedMessage);
+
+    public void ScenarioFinishedMessage(TestInfo testInfo) {
+        String ScenarioFinishedMessage = "********** Test Scenario Finished: " + testInfo.getDisplayName() + " **********\n";
+        evidence.message(ScenarioFinishedMessage);
     }
 }
