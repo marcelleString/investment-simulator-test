@@ -30,12 +30,12 @@ Para desenvolvimento do projeto e execução prévia, poderá ser utilizada a fe
 >**gradle test**
 
 ###Cenários Testados:
-#SERVIÇOS:
+>SERVIÇOS:
 1. GET/Simulador - Validacao de Valores Fixos dos Campos
 2. GET/Simulador - Validacao de Formato de Resposta: Campos e Tipos de Dados
 3. GET/Simulador - Validacao de Status Code
 
-#UI:
+>UI:
 1. Validar Valores de Simulacao de Investimento de Poupanca : Perfil: paraVoce, ValorAplicar: 50,00, ValorInvestir: 30,00, Tempo: 1A
 2. Validar Valores de Simulacao de Investimento de Poupanca : Perfil: paraVoce, ValorAplicar: 500,00, ValorInvestir: 200,00, Tempo: 6M
 3. Validar Valores de Simulacao de Investimento de Poupanca : Perfil: paraEmpresa, ValorAplicar: 2.000,00, ValorInvestir: 1.000,00, Tempo: 5A
@@ -48,9 +48,12 @@ Com o propósito de Simular um Investimento na Poupança como um Associado, eu g
 1. O associado preencher todos os campos corretamente e visualizar o formulário de simulação.
 2. O associado preencher o valor inferior a “R$ 20.00” e receber a mensagem de orientação “Valor mínimo de R$ 20.00”.
 
->UI Url: https://www.sicredi.com.br/html/ferramenta/simulador-investimento-poupanca/
+>UI Url: 
+https://www.sicredi.com.br/html/ferramenta/simulador-investimento-poupanca/
 
->API Url: GET http://5b847b30db24a100142dce1b.mockapi.io/api/v1/simulador
+>API Url: 
+GET http://5b847b30db24a100142dce1b.mockapi.io/api/v1/simulador
+
 Response:
 {
  "id": 1,
