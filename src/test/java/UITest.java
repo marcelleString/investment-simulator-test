@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import ui.SimulatorPage;
 
 import java.util.List;
 
@@ -13,8 +14,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class UITest extends BaseTest {
-
-    Evidence evidence = new Evidence();
 
     private WebDriver driver;
     private WebDriverWait wait;
@@ -27,7 +26,7 @@ public class UITest extends BaseTest {
         System.setProperty("webdriver.chrome.driver", "./browserDrives/chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().window().maximize();
-        driver.get("https://www.sicredi.com.br/html/ferramenta/simulador-investimento-poupanca/");
+        driver.get(WebSiteURI);
 
         wait = new WebDriverWait(driver, 20);
 
@@ -42,18 +41,18 @@ public class UITest extends BaseTest {
     }
 
     @ParameterizedTest(name = "Validar Valores de Simulacao de Investimento de Poupanca : Perfil: {0}, ValorAplicar: {1}, ValorInvestir: {2}, Tempo: {3}{4}")
-    @CsvFileSource(resources = "/DataUI.csv", numLinesToSkip = 1, delimiter = ';')
+    @CsvFileSource(resources = "/data/UIData.csv", numLinesToSkip = 1, delimiter = ';')
     @DisplayName("Validar Valores de Simulacao de Investimento de Poupanca")
-    public void investSavings(ArgumentsAccessor arguments) {
+    public void validateSavingsInvestmentSimulation(ArgumentsAccessor arguments) {
         String profile = arguments.getString(0);
         String amountToApply = arguments.getString(1);
-        String amauntToInvest = arguments.getString(2);
+        String amountToInvest = arguments.getString(2);
         String time = arguments.getString(3);
         String period = arguments.getString(4);
         String expectedPeriodResult = arguments.getString(5);
         String expectedAmountResult = arguments.getString(6);
 
-        simulatorPage.simulateInvestment(profile, amountToApply, amauntToInvest, time, period);
+        simulatorPage.simulateInvestment(profile, amountToApply, amountToInvest, time, period);
 
         String currentPeriodResult = simulatorPage.getPeriodResultText();
         String currentAmountResult = simulatorPage.getAmountResultText();
@@ -68,7 +67,7 @@ public class UITest extends BaseTest {
 
         Integer csvColumn = 7;
         for (WebElement currentRow : tableRows) {
-            List<WebElement> values = simulatorPage.obterValoresDasColunasDaTabela(currentRow);
+            List<WebElement> values = simulatorPage.getValuesFromTableColumns(currentRow);
 
             WebElement timeElement = values.get(0);
             WebElement valueElement = values.get(1);
@@ -79,17 +78,41 @@ public class UITest extends BaseTest {
             evidence.message("Tempo(Meses): " + currentTime + " - Valor: " + currentValue);
 
 
-            String timeExpected = arguments.getString(csvColumn);
+            String expectedTime = arguments.getString(csvColumn);
             csvColumn++;
             String expectedValue = arguments.getString(csvColumn);
             csvColumn++;
 
             String messageData =
                     "\nDados atuais: " + "Tempo(Meses): " + currentTime + " - Valor: " + currentValue +
-                            "\nDados esperados: " + "Tempo(Meses): " + timeExpected + " - Valor: " + expectedValue;
+                            "\nDados esperados: " + "Tempo(Meses): " + expectedTime + " - Valor: " + expectedValue;
 
-            assertEquals(timeExpected, currentTime, "Não retornou o Tempo(Meses) esperado! " + messageData);
+            assertEquals(expectedTime, currentTime, "Não retornou o Tempo(Meses) esperado! " + messageData);
             assertEquals(expectedValue, currentValue, "Não retornou o Valor esperado! " + messageData);
         }
+    }
+
+
+    @ParameterizedTest(name = "Validar mensagem de erro quando informado valor menor que R$20.00 em ValorAplicar e ValorInvestir")
+    @CsvFileSource(resources = "/data/UIErrorData.csv", numLinesToSkip = 1, delimiter = ';')
+    @DisplayName("Validar mensagem de erro quando informado valor menor que R$20.00 em ValorAplicar e ValorInvestir")
+    public void validateValueErrorMessage(ArgumentsAccessor arguments) {
+        String profile = arguments.getString(0);
+        String amountToApply = arguments.getString(1);
+        String amountToInvest = arguments.getString(2);
+        String time = arguments.getString(3);
+        String period = arguments.getString(4);
+        String expectedErrorMessage = arguments.getString(5);
+
+        simulatorPage.simulateInvestment(profile, amountToApply, amountToInvest, time, period);
+
+        String currentAmountToApplyErrorMessage = simulatorPage.getAmountToApplyMessageError();
+        String currentAmountToInvestErrorMessage = simulatorPage.getAmountToInvestMessageError();
+
+        evidence.message("Mensagem de erro ValorAplicar: " + currentAmountToApplyErrorMessage);
+        evidence.message("Mensagem de erro ValorInvestir: " + currentAmountToInvestErrorMessage);
+
+        assertEquals(expectedErrorMessage, currentAmountToApplyErrorMessage, "Não retornou a Mensagem de Erro esperada!");
+        assertEquals(expectedErrorMessage, currentAmountToInvestErrorMessage, "Não retornou a Mensagem de Erro esperada!");
     }
 }

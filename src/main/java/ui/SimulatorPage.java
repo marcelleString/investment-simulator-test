@@ -1,3 +1,5 @@
+package ui;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -5,15 +7,18 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.List;
 
 public class SimulatorPage extends Action {
-
     public SimulatorPage(WebDriver driver, WebDriverWait wait) {
         super(driver, wait);
     }
 
     private final String profileRadioButton = ".formGeraInvestimento .campoObrigatorio input[type*='radio'][value*='#PROFILE#']";
 
-    private final String valueToApplyField = "#valorAplicar";
-    private final String valueToInvestField = "#valorInvestir";
+    private final String amountToApplyField = "#valorAplicar";
+    private final String amountToApplyErrorLabel = "#valorAplicar-error";
+
+    private final String amountToInvestField = "#valorInvestir";
+    private final String amountToInvestErrorLabel = "#valorInvestir-error";
+
     private final String timeField = "#tempo";
 
     private final String periodDropDownList = ".btSelect";
@@ -30,18 +35,18 @@ public class SimulatorPage extends Action {
     private final String valuesColumn = "td";
 
 
-    public void simulateInvestment(String profile, String valueToApply, String valueToInvest, String time, String period) {
-        scrollToElement(valueToApplyField);
+    public void simulateInvestment(String profile, String amountToApply, String amountToInvest, String time, String period) {
+        scrollToElement(amountToApplyField);
         click(profileRadioButton.replace("#PROFILE#", profile));
-        write(valueToApplyField, valueToApply);
-        write(valueToInvestField, valueToInvest);
+        write(amountToApplyField, amountToApply);
+        write(amountToInvestField, amountToInvest);
         write(timeField, time);
         click(periodDropDownList);
         click(periodOption.replace("#PERIOD#", period));
         click(simulateButton);
 
-        System.out.println("SIMULACAO: \n" + "Perfil - " + profile + "\n" + "ValorAplicar - " + valueToApply + "\n" +
-                "ValorInvestir - " + valueToInvest + "\n" + "Tempo - " + time + period);
+        System.out.println("SIMULACAO: \n" + "Perfil - " + profile + "\n" + "ValorAplicar - " + amountToApply + "\n" +
+                "ValorInvestir - " + amountToInvest + "\n" + "Tempo - " + time + period);
     }
 
     public String getPeriodResultText() {
@@ -62,8 +67,16 @@ public class SimulatorPage extends Action {
         return rowValues;
     }
 
-    public List<WebElement> obterValoresDasColunasDaTabela(WebElement tabelaValores) {
+    public List<WebElement> getValuesFromTableColumns(WebElement tabelaValores) {
         List<WebElement> valoresColuna = waitAndReturnSubElements(tabelaValores, valuesColumn);
         return valoresColuna;
+    }
+
+    public String getAmountToApplyMessageError() {
+        return getText(amountToApplyErrorLabel);
+    }
+
+    public String getAmountToInvestMessageError() {
+        return getText(amountToInvestErrorLabel);
     }
 }

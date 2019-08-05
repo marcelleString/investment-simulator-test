@@ -1,23 +1,7 @@
 
 import java.io.File;
-import java.io.PrintStream;
-import java.io.StringWriter;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
 
-import io.restassured.filter.Filter;
-import io.restassured.filter.log.ErrorLoggingFilter;
-import io.restassured.filter.log.RequestLoggingFilter;
-import io.restassured.filter.log.ResponseLoggingFilter;
-import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
-import io.restassured.response.ValidatableResponse;
-import org.apache.commons.io.output.WriterOutputStream;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.aggregator.ArgumentsAccessor;
@@ -33,8 +17,6 @@ public class ServiceTest extends BaseTest {
 
     Util util = new Util();
     Evidence evidence = new Evidence();
-
-    public static final String baseURI = "http://5b847b30db24a100142dce1b.mockapi.io/api/v1/";
 
     protected String headerName = "Content-Type";
     protected String headerValue = "application/json";
@@ -52,7 +34,7 @@ public class ServiceTest extends BaseTest {
         try {
             response =
                     given()
-                            .baseUri(baseURI)
+                            .baseUri(serviceURI)
                             .headers(headerName, headerValue)
                             .filters(evidence.getFilters())
                             .when()
@@ -72,14 +54,14 @@ public class ServiceTest extends BaseTest {
 
     @Test
     @DisplayName("GET/Simulador - Validacao de Status Code")
-    public void ValidationStatusCode() {
+    public void ValidateStatusCode() {
         assertEquals(200, response.statusCode(), "Nao retornou status code 200!");
     }
 
 
     @Test
     @DisplayName("GET/Simulador - Validacao de Formato de Resposta: Campos e Tipos de Dados")
-    public void ValidationResponseFormat() {
+    public void ValidateResponseFormat() {
         //Pode-se validar com JsonSchema:
         response.then().assertThat().body(matchesJsonSchema(Jschema));
 
@@ -90,9 +72,9 @@ public class ServiceTest extends BaseTest {
 
 
     @ParameterizedTest(name = "GET/Simulador - Validacao de Valores Fixos dos Campos")
-    @CsvFileSource(resources = "/DataService.csv", numLinesToSkip = 1, delimiter = ';')
+    @CsvFileSource(resources = "/data/ServiceData.csv", numLinesToSkip = 1, delimiter = ';')
     @DisplayName("GET/Simulador - Validacao de Valores Fixos dos Campos")
-    public void ValidationFixedFieldValues(ArgumentsAccessor arguments) {
+    public void ValidateFixedFieldValues(ArgumentsAccessor arguments) {
         Integer id = arguments.getInteger(0);
         Integer currentId = response.path("id");
 

@@ -1,3 +1,5 @@
+package ui;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -18,6 +20,7 @@ public class Action {
 
     public WebElement waitAndReturnElement(String elementSelector) {
         wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(elementSelector)));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(elementSelector)));
         WebElement elementoRetornado = driver.findElement(By.cssSelector(elementSelector));
         return elementoRetornado;
     }
